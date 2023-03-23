@@ -17,9 +17,6 @@ ChatService::ChatService()
     _msgHandlerMap.insert({ LOGIN_MSG, std::bind(&ChatService::login, this, _1, _2, _3) });
 }
 
-void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time) { }
-void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time) { }
-
 // 获取消息对应的处理器
 MsgHandler ChatService::getHandler(int msgid)
 {
@@ -32,3 +29,9 @@ MsgHandler ChatService::getHandler(int msgid)
     }
     return _msgHandlerMap[msgid];
 }
+
+void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
+{
+    LOG_INFO << "do login service";
+}
+void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time) { }
