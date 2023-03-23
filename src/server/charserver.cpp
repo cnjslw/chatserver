@@ -1,4 +1,5 @@
 #include "charserver.h"
+#include "chatservice.h"
 #include "json.hpp"
 #include <functional>
 #include <string>
@@ -43,5 +44,7 @@ void ChatServer::onMessage(const TcpConnectionPtr& conn,
     string buf = buffer->retrieveAllAsString();
     // 数据的反序列化
     json js = json::parse(buf);
-    //
+    auto msgHandler = ChatService::instance()->getHandler(js["msgid"].get<int>());
+    // 回调消息绑定好的事件处理器
+    msgHandler(conn, js, time);
 }

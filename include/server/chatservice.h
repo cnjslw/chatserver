@@ -11,13 +11,14 @@ using json = nlohmann::json;
 using namespace std;
 using namespace muduo;
 using namespace muduo::net;
-using MsgHandler = std::function<void(const TcpConnection& conn, json& js,Timestamp)>;
+using MsgHandler = std::function<void(const TcpConnectionPtr& conn, json& js, Timestamp)>;
 
 class ChatService {
 public:
     static ChatService* instance();
-    void login(const TcpConnection& conn, json& js, Timestamp time);
-    void reg(const TcpConnection& conn, json& js, Timestamp time);
+    void login(const TcpConnectionPtr& conn, json& js, Timestamp time);
+    void reg(const TcpConnectionPtr& conn, json& js, Timestamp time);
+    MsgHandler getHandler(int msgid);
 
 private:
     ChatService();
