@@ -2,8 +2,10 @@
 #include "public.h"
 #include <muduo/base/Logging.h>
 #include <string>
+
 using namespace std;
 using namespace muduo;
+using namespace muduo::net;
 
 ChatService* ChatService::instance()
 {
@@ -30,8 +32,35 @@ MsgHandler ChatService::getHandler(int msgid)
     return _msgHandlerMap[msgid];
 }
 
+// 处理登录业务
 void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
 {
     LOG_INFO << "do login service";
 }
-void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time) { }
+
+// 处理注册业务
+void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time)
+{
+    string name = js["name"];
+    string pwd = js["password"];
+
+    User user;
+    user.setName(name);
+    user.setPwd(pwd);
+
+    bool state = _userModel.insert(user);
+    if (state) {
+        // 注册成功
+        json response;
+        response["msgid"] = REG_MSG_ACK;
+        response["errno"] = 0;
+        response["id"] = user.getId();
+        conn->send(response.dump());
+    } else {
+        // 注册失败
+        json response;
+        response["msgid"] = REG_MSG_ACK;
+        response["errno"] = 1;
+        conn->send(response.dump());
+    }
+}

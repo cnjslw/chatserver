@@ -3,6 +3,7 @@
 
 #include "json.hpp"
 #include <functional>
+#include "usermodel.h"
 #include <muduo/net/TcpConnection.h>
 #include <unordered_map>
 
@@ -24,6 +25,9 @@ private:
     ChatService();
 
     unordered_map<int, MsgHandler> _msgHandlerMap;
+
+    //数据操作类对象
+    UserModel _userModel;
 };
 
 #endif
