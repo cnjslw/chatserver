@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/ChatServer.dir/charserver.cpp.o CMakeFiles/ChatServer.dir/main.cpp.o -o ../../../bin/ChatServer   -L/usr/lib64/mysql  -Wl,-rpath,/usr/lib64/mysql -lmuduo_net -lmuduo_base -lpthread 
