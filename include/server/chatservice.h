@@ -2,8 +2,8 @@
 #define CHATSERVICE_H
 
 #include "json.hpp"
-#include <functional>
 #include "usermodel.h"
+#include <functional>
 #include <muduo/net/TcpConnection.h>
 #include <unordered_map>
 
@@ -26,7 +26,10 @@ private:
 
     unordered_map<int, MsgHandler> _msgHandlerMap;
 
-    //数据操作类对象
+    // 存储在线用户的通信连接
+    unordered_map<int, TcpConnectionPtr> _userConnMap;
+
+    // 数据操作类对象
     UserModel _userModel;
 };
 
