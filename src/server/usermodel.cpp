@@ -51,7 +51,17 @@ bool UserModel::update(User user)
     sprintf(sql, "update user set state = %s where id = %d", user.getState().c_str(), user.getId());
     MySQL mysql;
     if (mysql.connect()) {
-        return true;
+        if (mysql.update(sql))
+            return true;
     }
     return false;
+}
+
+void UserModel::resetState()
+{
+    char sql[128] = "update user set state = 'offline' where state='online' ";
+    MySQL mysql;
+    if (mysql.connect()) {
+        mysql.update(sql);
+    }
 }

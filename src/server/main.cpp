@@ -1,7 +1,15 @@
 #include "charserver.h"
+#include "chatservice.h"
 #include <iostream>
+#include <signal.h>
 using namespace std;
 
+// 处理服务器ctrl+c 结束后，重置user的状态信息
+void resetHandler(int)
+{
+    ChatService::instance()->reset();
+    exit(0);
+}
 int main()
 {
     EventLoop loop;
