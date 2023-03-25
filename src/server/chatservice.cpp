@@ -2,6 +2,7 @@
 #include "public.h"
 #include <muduo/base/Logging.h>
 #include <string>
+#include <vector>
 
 using namespace std;
 using namespace muduo;
@@ -17,6 +18,7 @@ ChatService::ChatService()
 {
     _msgHandlerMap.insert({ REG_MSG, std::bind(&ChatService::reg, this, _1, _2, _3) });
     _msgHandlerMap.insert({ LOGIN_MSG, std::bind(&ChatService::login, this, _1, _2, _3) });
+    _msgHandlerMap.insert({ ONE_CHAT_MSG, std::bind(&ChatService::oneChat, this, _1, _2, _3) });
 }
 
 // 获取消息对应的处理器
@@ -49,7 +51,12 @@ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
             response["errmsg"] = "该账户已经登录，请重新输入新账号";
             conn->send(response.dump());
         } else {
-            // 登录成功
+            // 登录成功,记录用户连接信息
+            {
+                lock_guard<mutex> lock(_connMutex);
+                _userConnMap.insert({ id, conn });
+            }
+
             // 更新用户状态信息
             user.setState("online");
             _userModel.update(user);
@@ -58,6 +65,13 @@ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
             response["errno"] = 0;
             response["id"] = user.getId();
             response["name"] = user.getName();
+
+            // 查询用户是否有离线消息需要接受
+            vector<string> svec = _offlineMsgModel.query(id);
+            if (!svec.empty()) {
+                response["offlinemsg"] = svec;
+                _offlineMsgModel.remove(id);
+            }
             conn->send(response.dump());
         }
 
@@ -96,4 +110,49 @@ void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time)
         response["errno"] = 1;
         conn->send(response.dump());
     }
+}
+
+// 处理用户异常退出
+void ChatService::clientCloseException(const TcpConnectionPtr& conn)
+{
+    User user;
+    {
+        lock_guard<mutex> lock(_connMutex);
+
+        for (auto it = _userConnMap.begin(); it != _userConnMap.end(); it++) {
+            if (it->second == conn) {
+                // 删除用户连接信息
+                user.setId(it->first);
+                _userConnMap.erase(it);
+                break;
+            }
+        }
+    }
+    // 更新用户状态
+    if (user.getId() != -1) {
+        user.setState("offline");
+        _userModel.update(user);
+    }
+}
+
+// 一对一聊天
+void ChatService::oneChat(const TcpConnectionPtr& conn, json& js, Timestamp time)
+{
+
+    int toid = js["to"].get<int>();
+
+    // 标识用户是否在线
+    bool userState = false;
+    {
+        lock_guard<mutex> lock(_connMutex);
+        auto it = _userConnMap.find(toid);
+        if (it != _userConnMap.end()) {
+            // toid在线转发消息
+            it->second->send(js.dump());
+            return;
+        }
+    }
+
+    // 如果离线，则存储消息，并在目标用户上线后发送
+    _offlineMsgModel.insert(toid, js.dump());
 }

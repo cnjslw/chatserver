@@ -344,8 +344,16 @@ src/server/CMakeFiles/ChatServer.dir/charserver.cpp.o: ../src/server/charserver.
   /usr/include/c++/9/bits/gslice_array.h \
   /usr/include/c++/9/bits/mask_array.h \
   /usr/include/c++/9/bits/indirect_array.h \
+  ../include/server/offlinemessagemodel.h \
   ../include/server/usermodel.h \
-  ../include/server/user.h
+  ../include/server/user.h \
+  /usr/include/c++/9/mutex \
+  /usr/include/c++/9/chrono \
+  /usr/include/c++/9/ratio \
+  /usr/include/c++/9/ctime \
+  /usr/include/c++/9/bits/parse_numbers.h \
+  /usr/include/c++/9/bits/std_mutex.h \
+  /usr/include/c++/9/bits/unique_lock.h
 
 src/server/CMakeFiles/ChatServer.dir/chatservice.cpp.o: ../src/server/chatservice.cpp \
   /usr/include/stdc-predef.h \
@@ -597,6 +605,7 @@ src/server/CMakeFiles/ChatServer.dir/chatservice.cpp.o: ../src/server/chatservic
   /usr/include/c++/9/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
+  ../include/server/offlinemessagemodel.h \
   ../include/server/usermodel.h \
   ../include/server/user.h \
   /usr/include/muduo/net/TcpConnection.h \
@@ -684,6 +693,13 @@ src/server/CMakeFiles/ChatServer.dir/chatservice.cpp.o: ../src/server/chatservic
   /usr/local/include/boost/utility/enable_if.hpp \
   /usr/local/include/boost/core/enable_if.hpp \
   /usr/local/include/boost/type_traits/is_same.hpp \
+  /usr/include/c++/9/mutex \
+  /usr/include/c++/9/chrono \
+  /usr/include/c++/9/ratio \
+  /usr/include/c++/9/ctime \
+  /usr/include/c++/9/bits/parse_numbers.h \
+  /usr/include/c++/9/bits/std_mutex.h \
+  /usr/include/c++/9/bits/unique_lock.h \
   ../include/public.h \
   /usr/include/muduo/base/Logging.h \
   /usr/include/muduo/base/LogStream.h
@@ -1439,9 +1455,15 @@ src/server/CMakeFiles/ChatServer.dir/usermodel.cpp.o: ../src/server/usermodel.cp
 
 ../src/server/chatservice.cpp:
 
+/usr/include/c++/9/ctime:
+
+/usr/include/c++/9/ratio:
+
 ../include/server/user.h:
 
 ../include/server/usermodel.h:
+
+../include/server/offlinemessagemodel.h:
 
 /usr/include/c++/9/bits/mask_array.h:
 
@@ -1472,6 +1494,8 @@ src/server/CMakeFiles/ChatServer.dir/usermodel.cpp.o: ../src/server/usermodel.cp
 /usr/include/c++/9/bits/hashtable_policy.h:
 
 /usr/include/c++/9/iostream:
+
+/usr/include/c++/9/bits/parse_numbers.h:
 
 /usr/include/c++/9/bits/forward_list.tcc:
 
@@ -1707,6 +1731,8 @@ src/server/CMakeFiles/ChatServer.dir/usermodel.cpp.o: ../src/server/usermodel.cp
 
 /usr/local/include/boost/core/addressof.hpp:
 
+/usr/include/c++/9/mutex:
+
 /usr/include/c++/9/bits/stringfwd.h:
 
 /usr/include/features.h:
@@ -1772,6 +1798,8 @@ src/server/CMakeFiles/ChatServer.dir/usermodel.cpp.o: ../src/server/usermodel.cp
 /usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
 
 ../src/server/db/db.cpp:
+
+/usr/include/c++/9/bits/std_mutex.h:
 
 /usr/include/c++/9/ext/new_allocator.h:
 
@@ -1921,6 +1949,8 @@ src/server/CMakeFiles/ChatServer.dir/usermodel.cpp.o: ../src/server/usermodel.cp
 
 /usr/include/c++/9/bits/ptr_traits.h:
 
+/usr/include/c++/9/bits/unique_lock.h:
+
 /usr/include/wchar.h:
 
 /usr/include/x86_64-linux-gnu/c++/9/bits/cpu_defines.h:
@@ -2008,6 +2038,8 @@ src/server/CMakeFiles/ChatServer.dir/usermodel.cpp.o: ../src/server/usermodel.cp
 /usr/include/c++/9/cstdint:
 
 /usr/include/c++/9/bits/stl_vector.h:
+
+/usr/include/c++/9/chrono:
 
 /usr/include/c++/9/algorithm:
 
