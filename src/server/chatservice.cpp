@@ -16,9 +16,9 @@ ChatService* ChatService::instance()
 
 ChatService::ChatService()
 {
-    _msgHandlerMap.insert({ REG_MSG, std::bind(&ChatService::reg, this, _1, _2, _3) });
-    _msgHandlerMap.insert({ LOGIN_MSG, std::bind(&ChatService::login, this, _1, _2, _3) });
-    _msgHandlerMap.insert({ ONE_CHAT_MSG, std::bind(&ChatService::oneChat, this, _1, _2, _3) });
+    _msgHandlerMap.insert({ REG_MSG, std::bind(&ChatService::reg, this, _1, _2, _3) });//注册事件
+    _msgHandlerMap.insert({ LOGIN_MSG, std::bind(&ChatService::login, this, _1, _2, _3) });//登录事件
+    _msgHandlerMap.insert({ ONE_CHAT_MSG, std::bind(&ChatService::oneChat, this, _1, _2, _3) });//聊天事件
 }
 
 void ChatService::reset()
@@ -26,7 +26,15 @@ void ChatService::reset()
     _userModel.resetState();
 }
 
-// 获取消息对应的处理器
+// 根据JSON的msgid键值对，从_msgHandlerMap获取对应的回调函数
+//e.g. : {"msgid":3,"name":"xxx","password":"123456"}
+/*enum EnMsgType {
+    LOGIN_MSG = 1, // 登录消息
+    LOGIN_MSG_ACK, // 登录响应消息
+    REG_MSG, // 注册消息             3号事件
+    REG_MSG_ACK, // 注册响应消息
+    ONE_CHAT_MSG, // 聊天消息
+};*/
 MsgHandler ChatService::getHandler(int msgid)
 {
     // 记录错误日志，msgid没有对应的事件处理回调
@@ -36,10 +44,10 @@ MsgHandler ChatService::getHandler(int msgid)
     } else {
         return _msgHandlerMap[msgid];
     }
-    return _msgHandlerMap[msgid];
 }
 
 // 处理登录业务
+//e.g. {"msgid":1,"id":1"password":"123"}
 void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
 {
     int id = js["id"];
@@ -71,7 +79,7 @@ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
             response["id"] = user.getId();
             response["name"] = user.getName();
 
-            // 查询用户是否有离线消息需要接受
+            // 登录成功以后，查询用户是否有离线消息需要接受
             vector<string> svec = _offlineMsgModel.query(id);
             if (!svec.empty()) {
                 response["offlinemsg"] = svec;
@@ -91,6 +99,8 @@ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
 }
 
 // 处理注册业务
+// msgHandler(conn, js, time);
+//e.g. : {"msgid":3,"name":"xxx","password":"123456"}
 void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time)
 {
     string name = js["name"];

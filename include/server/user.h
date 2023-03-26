@@ -14,7 +14,7 @@ public:
 
     void setId(int id) { this->id = id; }
     void setName(string name) { this->name = name; }
-    void setPwd(string pwd) { this->password = password; }
+    void setPwd(string pwd) { this->password = pwd; }
     void setState(string state) { this->state = state; }
 
     int getId() { return this->id; }

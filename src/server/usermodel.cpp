@@ -6,7 +6,7 @@ using namespace std;
 bool UserModel::insert(User& user)
 {
     char sql[128] = { 0 };
-    sprintf(sql, "insert into user(name,passwor,state) values('%s','%s','%s')",
+    sprintf(sql, "insert into user(name,password,state) values('%s','%s','%s')",
         user.getName().c_str(), user.getPwd().c_str(), user.getState().c_str());
 
     MySQL mysql;
@@ -48,7 +48,7 @@ User UserModel::query(int id)
 bool UserModel::update(User user)
 {
     char sql[128] = { 0 };
-    sprintf(sql, "update user set state = %s where id = %d", user.getState().c_str(), user.getId());
+    sprintf(sql, "update user set state = '%s' where id = %d", user.getState().c_str(), user.getId());
     MySQL mysql;
     if (mysql.connect()) {
         if (mysql.update(sql))

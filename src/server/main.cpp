@@ -16,6 +16,9 @@ int main()
     InetAddress addr("127.0.0.1", 6002);
     ChatServer server(&loop, addr, "ChatServer");
 
+	
+    signal(SIGINT, resetHandler);
+	
     server.Start();
     loop.loop();
 

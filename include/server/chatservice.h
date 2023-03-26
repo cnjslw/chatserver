@@ -25,6 +25,7 @@ public:
 
     MsgHandler getHandler(int msgid);
     void clientCloseException(const TcpConnectionPtr& conn);
+	void reset();
 
 private:
     ChatService();

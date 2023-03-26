@@ -1,0 +1,2 @@
+注册 ： {"msgid":3,"name":"Zhang san","password":"123"}
+登录 ： {"msgid":1,"id":1,"password":"123"}
