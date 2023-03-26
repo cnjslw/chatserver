@@ -16,9 +16,10 @@ ChatService* ChatService::instance()
 
 ChatService::ChatService()
 {
-    _msgHandlerMap.insert({ REG_MSG, std::bind(&ChatService::reg, this, _1, _2, _3) });//注册事件
-    _msgHandlerMap.insert({ LOGIN_MSG, std::bind(&ChatService::login, this, _1, _2, _3) });//登录事件
-    _msgHandlerMap.insert({ ONE_CHAT_MSG, std::bind(&ChatService::oneChat, this, _1, _2, _3) });//聊天事件
+    _msgHandlerMap.insert({ REG_MSG, std::bind(&ChatService::reg, this, _1, _2, _3) }); // 注册事件
+    _msgHandlerMap.insert({ LOGIN_MSG, std::bind(&ChatService::login, this, _1, _2, _3) }); // 登录事件
+    _msgHandlerMap.insert({ ONE_CHAT_MSG, std::bind(&ChatService::oneChat, this, _1, _2, _3) }); // 聊天事件
+    _msgHandlerMap.insert({ ADD_FRIEND_MSG, std::bind(&ChatService::addFriend, this, _1, _2, _3) }); // 添加好友事件
 }
 
 void ChatService::reset()
@@ -27,7 +28,7 @@ void ChatService::reset()
 }
 
 // 根据JSON的msgid键值对，从_msgHandlerMap获取对应的回调函数
-//e.g. : {"msgid":3,"name":"xxx","password":"123456"}
+// e.g. : {"msgid":3,"name":"xxx","password":"123456"}
 /*enum EnMsgType {
     LOGIN_MSG = 1, // 登录消息
     LOGIN_MSG_ACK, // 登录响应消息
@@ -47,7 +48,7 @@ MsgHandler ChatService::getHandler(int msgid)
 }
 
 // 处理登录业务
-//e.g. {"msgid":1,"id":1"password":"123"}
+// e.g. {"msgid":1,"id":1"password":"123"}
 void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
 {
     int id = js["id"];
@@ -85,6 +86,19 @@ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
                 response["offlinemsg"] = svec;
                 _offlineMsgModel.remove(id);
             }
+
+            // 查询好友的信息并返回
+            vector<User> userVec = _friendModel.query(id);
+            if (!userVec.empty()) {
+                vector<string> vec2;
+                for (User& user : userVec) {
+                    json js;
+                    js["id"] = user.getId();
+                    js["name"] = user.getName();
+                    js["state"] = user.getState();
+                    vec2.push_back(js.dump());
+                }
+            }
             conn->send(response.dump());
         }
 
@@ -100,7 +114,7 @@ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
 
 // 处理注册业务
 // msgHandler(conn, js, time);
-//e.g. : {"msgid":3,"name":"xxx","password":"123456"}
+// e.g. : {"msgid":3,"name":"xxx","password":"123456"}
 void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time)
 {
     string name = js["name"];
@@ -170,4 +184,15 @@ void ChatService::oneChat(const TcpConnectionPtr& conn, json& js, Timestamp time
 
     // 如果离线，则存储消息，并在目标用户上线后发送
     _offlineMsgModel.insert(toid, js.dump());
+}
+
+// 添加好友业务
+// e.g.
+void ChatService::addFriend(const TcpConnectionPtr& conn, json& js, Timestamp time)
+{
+    int userid = js["id"].get<int>();
+    int friendid = js["friendid"].get<int>();
+
+    // 存储好友信息
+    _friendModel.insert(userid, friendid);
 }

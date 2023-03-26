@@ -1,2 +1,12 @@
-注册 ： {"msgid":3,"name":"Zhang san","password":"123"}
-登录 ： {"msgid":1,"id":1,"password":"123"}
+注册
+{"msgid":3,"name":"Zhang san","password":"123"} //1
+{"msgid":3,"name":"Li Si","password":"123"}     //2
+{"msgid":3,"name":"Wang Wu","password":"123"}   //3
+{"msgid":3,"name":"Liu Liu","password":"123"}   //4
+
+添加好友信息
+{"msgid":6,"id":1,"friendid":"3"}
+{"msgid":6,"id":1,"friendid":"3"}
+
+登录
+{"msgid":1,"id":1,"password":"123"}

@@ -311,6 +311,8 @@ src/server/CMakeFiles/ChatServer.dir/charserver.cpp.o: ../src/server/charserver.
   /usr/include/c++/9/bits/stl_multimap.h \
   /usr/include/c++/9/bits/erase_if.h \
   ../include/server/chatservice.h \
+  ../include/server/friendmodel.h \
+  ../include/server/user.h \
   ../thirdparty/json.hpp \
   /usr/include/c++/9/cassert \
   /usr/include/c++/9/ciso646 \
@@ -346,7 +348,6 @@ src/server/CMakeFiles/ChatServer.dir/charserver.cpp.o: ../src/server/charserver.
   /usr/include/c++/9/bits/indirect_array.h \
   ../include/server/offlinemessagemodel.h \
   ../include/server/usermodel.h \
-  ../include/server/user.h \
   /usr/include/c++/9/mutex \
   /usr/include/c++/9/chrono \
   /usr/include/c++/9/ratio \
@@ -1710,8 +1711,6 @@ src/server/CMakeFiles/ChatServer.dir/usermodel.cpp.o: ../src/server/usermodel.cp
 
 /usr/include/c++/9/ratio:
 
-../include/server/user.h:
-
 ../include/server/usermodel.h:
 
 ../include/server/offlinemessagemodel.h:
@@ -1753,6 +1752,10 @@ src/server/CMakeFiles/ChatServer.dir/usermodel.cpp.o: ../src/server/usermodel.cp
 /usr/include/c++/9/bits/forward_list.tcc:
 
 /usr/include/c++/9/ciso646:
+
+../include/server/user.h:
+
+../include/server/friendmodel.h:
 
 ../include/server/chatservice.h:
 

@@ -1,6 +1,7 @@
 #ifndef CHATSERVICE_H
 #define CHATSERVICE_H
 
+#include "friendmodel.h"
 #include "json.hpp"
 #include "offlinemessagemodel.h"
 #include "usermodel.h"
@@ -22,10 +23,11 @@ public:
     void login(const TcpConnectionPtr& conn, json& js, Timestamp time);
     void reg(const TcpConnectionPtr& conn, json& js, Timestamp time);
     void oneChat(const TcpConnectionPtr& conn, json& js, Timestamp time);
+    void addFriend(const TcpConnectionPtr& conn, json& js, Timestamp time);
 
     MsgHandler getHandler(int msgid);
     void clientCloseException(const TcpConnectionPtr& conn);
-	void reset();
+    void reset();
 
 private:
     ChatService();
@@ -39,6 +41,7 @@ private:
     // 数据操作类对象
     UserModel _userModel;
     OfflineMsgModel _offlineMsgModel;
+    FriendModel _friendModel;
 };
 
 #endif

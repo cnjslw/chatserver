@@ -1,3 +1,5 @@
+#ifndef USER_H
+#define USER_H
 #include <string>
 using namespace std;
 
@@ -28,3 +30,4 @@ private:
     string password;
     string state;
 };
+#endif
