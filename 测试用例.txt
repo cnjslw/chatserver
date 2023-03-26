@@ -5,8 +5,8 @@
 {"msgid":3,"name":"Liu Liu","password":"123"}   //4
 
 添加好友信息
-{"msgid":6,"id":1,"friendid":"3"}
-{"msgid":6,"id":1,"friendid":"3"}
+{"msgid":6,"id":2,"friendid":3}
+{"msgid":6,"id":1,"friendid":4}
 
 登录
-{"msgid":1,"id":1,"password":"123"}
+{"msgid":1,"id":2,"password":"123"}
