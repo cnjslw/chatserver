@@ -367,12 +367,23 @@ void mainMenu(int clientfd)
     help();
 
     char buffer[1024] = { 0 };
+	//处理用户输入
+	/*
+	show command list >>>
+	groupchat : 群聊，格式groupchat:groupid:message
+	creategroup : 创建群组，格式creategroup:groupname:groupdesc
+	addfriend : 添加好友，格式addfriend:friendid
+	loginout : 注销，格式loginout
+	chat : 一对一聊天，格式chat:friendid:message
+	addgroup : 加入群组，格式addgroup:groupid
+	help : 显示所有支持的命令，格式help
+	*/
     while (isMainMenuRunning) {
         cin.getline(buffer, 1024);
         string commandbuf(buffer);
         string command; // 存储命令
         int idx = commandbuf.find(":");
-        if (-1 == idx) {
+		if (-1 == idx) {
             command = commandbuf;
         } else {
             command = commandbuf.substr(0, idx);

@@ -4,9 +4,8 @@
 // 存储离线消息
 void OfflineMsgModel::insert(int userid, string msg)
 {
-    char sql[128] = { 0 };
-    sprintf(sql, "insert into offlinemessage value(%d, %s)", userid, msg.c_str());
-
+    char sql[1024] = { 0 };    
+	sprintf(sql, "insert into offlinemessage values(%d, '%s')", userid, msg.c_str());
     MySQL mysql;
     if (mysql.connect()) {
         mysql.update(sql);
@@ -16,7 +15,7 @@ void OfflineMsgModel::insert(int userid, string msg)
 // 删除用户的离线消息
 void OfflineMsgModel::remove(int userid)
 {
-    char sql[128] = { 0 };
+    char sql[1024] = { 0 };
     sprintf(sql, "delete from offlinemessage where userid = %d", userid);
 
     MySQL mysql;
@@ -28,14 +27,14 @@ void OfflineMsgModel::remove(int userid)
 // 查询用户的离线消息
 vector<string> OfflineMsgModel::query(int userid)
 {
-    char sql[128] = { 0 };
+    char sql[1024] = { 0 };
     sprintf(sql, "select message from offlinemessage where userid=%d", userid);
     vector<string> vec;
     MySQL mysql;
     if (mysql.connect()) {
         MYSQL_RES* res = mysql.query(sql);
         if (res != nullptr) {
-            MYSQL_ROW row = mysql_fetch_row(res);
+            MYSQL_ROW row;
             while ((row = mysql_fetch_row(res)) != nullptr) {
                 vec.push_back(row[0]);
             }
