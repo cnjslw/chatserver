@@ -47,3 +47,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/mnt/e/Projects/CppProjects/chatserver/build/src/server/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/mnt/e/Projects/CppProjects/chatserver/build/src/client/cmake_install.cmake")
+endif()
+

@@ -5,6 +5,7 @@
 #include "groupmodel.h"
 #include "json.hpp"
 #include "offlinemessagemodel.h"
+#include "redis.h"
 #include "usermodel.h"
 #include <functional>
 #include <muduo/net/TcpConnection.h>
@@ -42,6 +43,10 @@ public:
     void clientCloseException(const TcpConnectionPtr& conn);
     // 服务器异常，业务重置方法
     void reset();
+    // 处理注销业务
+    void loginout(const TcpConnectionPtr &conn, json &js, Timestamp time);
+    // 从redis消息队列中获取订阅的消息
+    void handleRedisSubscribeMessage(int, string);
 
 private:
     ChatService();
@@ -57,6 +62,8 @@ private:
     OfflineMsgModel _offlineMsgModel;
     FriendModel _friendModel;
     GroupModel _groupModel;
+    // redis操作对象
+    Redis _redis;
 };
 
 #endif

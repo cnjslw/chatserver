@@ -5,9 +5,11 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/thirdparty",
+                "${workspaceFolder}/include/",
                 "${workspaceFolder}/include/server",
-                "${workspaceFolder}/include",
-                "${workspaceFolder}/include/server/db"
+                "${workspaceFolder}/include/server/model",
+                "${workspaceFolder}/include/server/db",
+                "${workspaceFolder}/include/server/redis"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
